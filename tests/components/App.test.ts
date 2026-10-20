@@ -127,6 +127,19 @@ describe('popup App', () => {
       expect(sentTypes(background)).toContain('auth:sign-out')
       expect(wrapper.find('form').exists()).toBe(true)
     })
+
+    it('shows the sign-in form without waiting for the server to revoke the token', async () => {
+      fakeBackground({
+        'auth:status': signedIn,
+        'clip:preview': { status: 'not-clippable' },
+        'auth:sign-out': () => new Promise<never>(() => {}),
+      })
+      const wrapper = await mountPopup()
+
+      await wrapper.get('[data-test="sign-out"]').trigger('click')
+
+      expect(wrapper.find('form').exists()).toBe(true)
+    })
   })
 
   describe('saving', () => {

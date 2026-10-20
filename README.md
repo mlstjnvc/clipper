@@ -8,12 +8,6 @@ Extraction uses [Mozilla Readability](https://github.com/mozilla/readability), f
 the current selection or the page's text, and the output is sanitized with DOMPurify before it
 leaves the page.
 
-- Spec: [`SPEC.md`](SPEC.md)
-- Plan and tasks: [`tasks/plan.md`](tasks/plan.md), [`tasks/todo.md`](tasks/todo.md)
-
-> **Status:** in development. Extraction, sign-in and saving are built; final hardening is
-> next. See `tasks/todo.md`.
-
 ## Requirements
 
 - Node `>=24.12.0`, npm 11
@@ -114,6 +108,11 @@ src/
 public/icons/            placeholder icons
 tests/                   Vitest unit and component tests, HTML fixtures
 ```
+
+## Releasing
+
+Run `npm run check`, `npm run build:all` and `npm run lint:firefox`, then try the extension by
+hand on all three browsers.
 
 ## Permissions
 

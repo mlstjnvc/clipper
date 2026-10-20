@@ -1,6 +1,6 @@
 export type ExtractionMethod = 'selection' | 'readability' | 'fallback'
 
-/** What the injected extractor returns to the background. See SPEC → Data shapes. */
+/** What the injected extractor returns to the background, and what POST /v3/clips accepts. */
 export interface ExtractedPage {
   url: string
   title: string

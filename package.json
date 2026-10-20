@@ -20,7 +20,9 @@
     "test": "vitest run",
     "test:watch": "vitest",
     "lint:firefox": "web-ext lint -s .output/firefox-mv3-dev",
-    "prepare:wxt": "WXT_API_URL=${WXT_API_URL:-http://localhost} wxt prepare"
+    "prepare:wxt": "WXT_API_URL=${WXT_API_URL:-http://localhost} wxt prepare",
+    "test:coverage": "vitest run --coverage",
+    "check": "run-s check-types lint format:check test:coverage"
   },
   "engines": {
     "node": ">=24.12.0"

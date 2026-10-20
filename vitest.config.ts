@@ -15,6 +15,12 @@ export default defineConfig({
     coverage: {
       provider: 'v8',
       include: ['src/**/*.{ts,vue}'],
+      // Entry points only wire things together; what they call is covered.
+      exclude: ['src/entrypoints/background.ts', 'src/entrypoints/extract.ts', 'src/**/main.ts'],
+      // The extraction, API and storage code is where bugs would hurt; keep it well covered.
+      thresholds: {
+        'src/lib/**': { lines: 90 },
+      },
     },
   },
 })

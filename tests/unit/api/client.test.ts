@@ -87,6 +87,21 @@ describe('apiRequest', () => {
     })
   })
 
+  it('gives every request a timeout', async () => {
+    const fetch = mockFetch(jsonResponse(200, { success: true, data: null }))
+
+    await apiRequest('me')
+
+    expect(fetch.mock.calls[0]?.[1]?.signal).toBeInstanceOf(AbortSignal)
+  })
+
+  it('reports a timed-out request as a network failure', async () => {
+    // jsdom's DOMException isn't an Error subclass, so it's rejected explicitly.
+    mockFetch().mockRejectedValueOnce(new DOMException('The operation timed out.', 'TimeoutError'))
+
+    expect(await apiRequest('clips')).toMatchObject({ ok: false, error: { kind: 'network' } })
+  })
+
   it('copes with a response that is not JSON', async () => {
     mockFetch(new Response('<html>Bad gateway</html>', { status: 502 }))
 

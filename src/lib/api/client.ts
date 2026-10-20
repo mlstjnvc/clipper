@@ -7,6 +7,10 @@ export interface RequestOptions {
   token?: string
 }
 
+// Long enough for a 5 MB clip on a slow connection; short enough that a hung request (e.g. an
+// untrusted local certificate) ends in a Retry instead of a spinner.
+export const REQUEST_TIMEOUT_MS = 30_000
+
 const STATUS_KINDS: Record<number, ApiErrorKind> = {
   401: 'unauthorized',
   403: 'forbidden',
@@ -54,8 +58,10 @@ export const apiRequest = async <T>(
         ...(token && { Authorization: `Bearer ${token}` }),
       },
       ...(body !== undefined && { body: JSON.stringify(body) }),
+      signal: AbortSignal.timeout(REQUEST_TIMEOUT_MS),
     })
   } catch {
+    // Offline, DNS, TLS, CORS or the timeout above: no response either way.
     return { ok: false, error: { kind: 'network', status: null, message: null } }
   }
 

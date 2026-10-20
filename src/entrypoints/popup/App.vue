@@ -69,9 +69,11 @@ const onSignedIn = (user: AuthUser) => {
   void loadPreview()
 }
 
-const signOut = async () => {
-  await sendMessage('auth:sign-out', {}).catch(() => undefined)
+// Signed out right away: the background revokes the token on the server and clears it locally
+// whatever the outcome, so the popup doesn't wait on the network.
+const signOut = () => {
   session.value = { status: 'signed-out' }
+  void sendMessage('auth:sign-out', {}).catch(() => undefined)
 }
 
 onMounted(async () => {
