@@ -1,0 +1,58 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <title>Hostile page</title>
+    <style>body { display: none }</style>
+    <script>window.stolen = document.cookie</script>
+  </head>
+  <body>
+    <article>
+      <h1>Hostile page</h1>
+      <p onclick="steal()" style="color:red" class="lead" id="lead">
+        This paragraph carries an inline handler, a style and a class. It is long enough that
+        Readability treats it as content, which matters for the extraction tests.
+      </p>
+      <p>
+        <a href="javascript:alert(1)">Script link</a>
+        <a href="/relative/path?x=1#y">Relative link</a>
+        <a href="//cdn.example.org/protocol-relative">Protocol-relative link</a>
+        <a href="mailto:editor@example.com">Mail the editor</a>
+        <a href="data:text/html,<script>alert(1)</script>">Data link</a>
+      </p>
+      <p>
+        <img src="images/photo.jpg" srcset="images/photo-2x.jpg 2x" onerror="steal()" alt="Photo" />
+        <img src="data:image/png;base64,iVBORw0KGgo=" alt="Inline image" />
+        <img src="javascript:alert(1)" alt="Script image" />
+      </p>
+      <script>steal()</script>
+      <iframe src="https://evil.example/frame"></iframe>
+      <form action="https://evil.example/collect"><input name="q" /><button>Go</button></form>
+      <svg><script>steal()</script><circle r="4" /></svg>
+      <p>
+        Hostile pages still carry real writing, and the extractor has to keep it while it throws
+        away everything that could run code or phone home. This paragraph exists to give the page
+        enough plain prose that it reads as an article, so that the tests below exercise the same
+        Readability path a real article would take, rather than the full-page fallback, which
+        treats the page as text and would hide whether links and images are resolved correctly.
+      </p>
+      <p>
+        Hostile pages still carry real writing, and the extractor has to keep it while it throws
+        away everything that could run code or phone home. This paragraph exists to give the page
+        enough plain prose that it reads as an article, so that the tests below exercise the same
+        Readability path a real article would take, rather than the full-page fallback, which
+        treats the page as text and would hide whether links and images are resolved correctly.
+      </p>
+      <p>
+        Hostile pages still carry real writing, and the extractor has to keep it while it throws
+        away everything that could run code or phone home. This paragraph exists to give the page
+        enough plain prose that it reads as an article, so that the tests below exercise the same
+        Readability path a real article would take, rather than the full-page fallback, which
+        treats the page as text and would hide whether links and images are resolved correctly.
+      </p>
+      <p>
+        The rest of the text keeps the article long enough for Readability to accept it as the
+        main content of the page and not fall back to anything else in these tests.
+      </p>
+    </article>
+  </body>
+</html>

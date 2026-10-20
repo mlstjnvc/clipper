@@ -1,0 +1,59 @@
+{
+  "name": "dlmnt-clipper",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "description": "Browser extension that extracts the readable text of a page and saves it to dlmnt",
+  "scripts": {
+    "postinstall": "npm run prepare:wxt",
+    "dev": "wxt",
+    "dev:firefox": "wxt -b firefox",
+    "build": "run-s check-types \"build-only {@}\" --",
+    "build-only": "wxt build --mode development",
+    "build:all": "run-s check-types \"build-only -- -b chrome\" \"build-only -- -b edge\" \"build-only -- -b firefox\"",
+    "zip": "wxt zip --mode development",
+    "check-types": "npm run prepare:wxt --silent && vue-tsc --noEmit",
+    "lint": "oxlint . -c .oxlintrc.json && eslint . --cache",
+    "lint:fix": "oxlint . -c .oxlintrc.json --fix && eslint . --fix --cache",
+    "format": "prettier --write .",
+    "format:check": "prettier --check .",
+    "test": "vitest run",
+    "test:watch": "vitest",
+    "lint:firefox": "web-ext lint -s .output/firefox-mv3-dev",
+    "prepare:wxt": "WXT_API_URL=${WXT_API_URL:-http://localhost} wxt prepare"
+  },
+  "engines": {
+    "node": ">=24.12.0"
+  },
+  "devDependencies": {
+    "@types/jsdom": "^30.0.0",
+    "@types/node": "^24.19.2",
+    "@types/turndown": "^5.0.6",
+    "@vitejs/plugin-vue": "^6.0.10",
+    "@vitest/coverage-v8": "^5.0.5",
+    "@vue/eslint-config-typescript": "^14.9.0",
+    "@vue/test-utils": "^2.5.1",
+    "@wxt-dev/module-vue": "^1.0.3",
+    "eslint": "^10.13.0",
+    "eslint-config-prettier": "^10.1.8",
+    "eslint-plugin-oxlint": "~1.89.0",
+    "eslint-plugin-vue": "~10.11.1",
+    "jiti": "^2.7.0",
+    "jsdom": "^30.1.3",
+    "less": "^4.9.1",
+    "npm-run-all2": "^9.0.3",
+    "oxlint": "~1.89.0",
+    "prettier": "^3.9.6",
+    "typescript": "~6.0.0",
+    "vitest": "^5.0.5",
+    "vue-tsc": "^3.3.13",
+    "web-ext": "^10.8.0",
+    "wxt": "^0.21.4"
+  },
+  "dependencies": {
+    "@mozilla/readability": "^0.6.0",
+    "dompurify": "^3.4.17",
+    "turndown": "^7.2.4",
+    "vue": "^3.5.44"
+  }
+}
